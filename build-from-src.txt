@@ -1,0 +1,1 @@
+./configure --with-json --with-tree-sitter --with-native-compilation=aot --with-x-toolkit=gtk3 --enable-link-time-optimization
