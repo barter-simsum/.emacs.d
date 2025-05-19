@@ -41,6 +41,10 @@
                    forge                ;magit interface for "forges", e.g. github
                    github-review
                    go-mode
+
+                   realgud
+                   realgud-lldb
+                   zig-mode
                     ))
        (notinstalled (seq-filter #'(lambda (pkg) (not (package-installed-p pkg)))
                                  packages)))
@@ -99,6 +103,7 @@
 (require 'hoon-mode)
 (require 'forge)
 (require 'github-review)
+(require 'realgud)
 
 
 ;;;; ===========================================================================
@@ -140,6 +145,9 @@
 
  ;; ("M-x" (counsel-M-x G))
  ;; ("M-X" (smex-major-mode-commands G))
+
+ ;; macos edits
+ ("M-`" (nil G))
 
 
  ("C-x"
@@ -239,6 +247,8 @@
 (add-to-list 'auto-mode-alist '("\\.conf\\'" . conf-mode))
 (add-to-list 'auto-mode-alist '("\\.hoon\\'" . hoon-mode))
 (add-to-list 'auto-mode-alist '("\\.BUILD\\'" . bazel-mode))
+(add-to-list 'auto-mode-alist '("\\.lldbinit\\'" . conf-mode))
+(add-to-list 'auto-mode-alist '("\\.lldb\\'" . conf-mode))
 
 
 
@@ -247,7 +257,7 @@
 
 (when (display-graphic-p)
   (setq default-frame-alist
-        '((width . 130)
+        '((width . 117)
           (height . 100)
           (top . 200))))
 
@@ -270,9 +280,6 @@
 ;; make 80 the horizontal char limit
 (setq-default fill-column 80)
 
-(setq browse-url-generic-program "firefox"
-      browse-url-browser-function #'browse-url-generic)
-
 (setq enable-recursive-minibuffers t)
 
 ;; hack in emacs 27.1 to make buffers with really long lines not cause ruin
@@ -287,6 +294,10 @@
 (setq read-buffer-completion-ignore-case t)
 (setq read-file-name-completion-ignore-case t)
 
+(setq focus-follows-mouse t)
+
+(undelete-frame-mode 1)
+
 
 ;;;; ===========================================================================
 ;;;;                              filewrite operations
@@ -297,6 +308,7 @@
       auto-save-default t
       create-lockfiles nil)
 
+;; backups
 (let ((dir (concat user-emacs-directory "backups")))
   (d/ensure-dir-exists dir)
   (setq backup-by-copying t
@@ -306,6 +318,14 @@
         kept-old-versions 5
         version-control t))
 
+;; auto-save
+(let ((dir (concat user-emacs-directory "auto-save-files/")))
+  (d/ensure-dir-exists dir)
+  (concat dir "\\1")
+  (setq auto-save-file-name-transforms
+        `(("\\`/.*/\\([^/]+\\)\\'"
+           ,(concat dir "\\1")
+           t))))
 
 
 ;;;; ===========================================================================
@@ -416,7 +436,7 @@
 
 ;; declutter view
 (tool-bar-mode -1)
-(scroll-bar-mode -1)
+;; (scroll-bar-mode -1)
 (menu-bar-mode 1)
 ;; (display-battery-mode 1)
 ;; (display-time-mode 1)
@@ -601,6 +621,24 @@
           (lambda ()
             (company-mode -1)))
 
+;;;; ===========================================================================
+;;;;                                system dependent
+
+(when (eq system-type 'darwin)
+  (setq mac-command-modifier       'meta
+        mac-option-modifier        'super
+        insert-directory-program "gls"
+        dired-use-ls-dired t
+        dired-listing-switches "-al --group-directories-first"
+        )
+  )
+
+(when (eq system-type 'gnu/linux)
+  (setq browse-url-generic-program "firefox"
+        browse-url-browser-function #'browse-url-generic)
+  )
+
+
 
 
 ;;;; ===========================================================================
@@ -649,8 +687,10 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(custom-safe-themes
+   '("712dda0818312c175a60d94ba676b404fc815f8c7e6c080c9b4061596c60a1db" default))
  '(package-selected-packages
-   '(zig-mode go-mode github-review edit-indirect forge rust-mode markdown-mode bazel diminish gruvbox-theme modus-themes nix-mode undo-tree which-key wgrep-ag use-package spacemacs-theme rainbow-delimiters counsel beacon ace-window))
+   '(zig-build realgud-lldb realgud zig-mode go-mode github-review edit-indirect forge rust-mode markdown-mode bazel diminish gruvbox-theme modus-themes nix-mode undo-tree which-key wgrep-ag use-package spacemacs-theme rainbow-delimiters counsel beacon ace-window))
  '(safe-local-variable-values
    '((major-mode . gdb-script-mode)
      (explicit-shell-file-name . /bin/bash))))
