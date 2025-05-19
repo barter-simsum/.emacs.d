@@ -1,0 +1,5 @@
+alias latr ls -latr $@*
+alias ltr ls -ltr $@*
+alias la ls -la $@*
+alias lla ls -la $@*
+alias ll ls -l $@*
