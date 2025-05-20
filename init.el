@@ -45,6 +45,8 @@
                    realgud
                    realgud-lldb
                    zig-mode
+                   yaml-mode
+                   terraform-mode
                     ))
        (notinstalled (seq-filter #'(lambda (pkg) (not (package-installed-p pkg)))
                                  packages)))
