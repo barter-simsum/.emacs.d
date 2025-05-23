@@ -47,6 +47,7 @@
                    zig-mode
                    yaml-mode
                    terraform-mode
+                   direnv
                     ))
        (notinstalled (seq-filter #'(lambda (pkg) (not (package-installed-p pkg)))
                                  packages)))
@@ -106,6 +107,7 @@
 (require 'forge)
 (require 'github-review)
 (require 'realgud)
+(require 'direnv)
 
 
 ;;;; ===========================================================================
@@ -299,6 +301,8 @@
 (setq focus-follows-mouse t)
 
 (undelete-frame-mode 1)
+
+(direnv-mode 1)
 
 
 ;;;; ===========================================================================
