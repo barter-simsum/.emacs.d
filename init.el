@@ -690,13 +690,15 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(custom-safe-themes
-   '("5e39e95c703e17a743fb05a132d727aa1d69d9d2c9cde9353f5350e545c793d4"
+   '("6bf350570e023cd6e5b4337a6571c0325cec3f575963ac7de6832803df4d210a"
+     "5e39e95c703e17a743fb05a132d727aa1d69d9d2c9cde9353f5350e545c793d4"
      "a9028cd93db14a5d6cdadba789563cb90a97899c4da7df6f51d58bb390e54031"
      "712dda0818312c175a60d94ba676b404fc815f8c7e6c080c9b4061596c60a1db" default))
  '(package-selected-packages
-   '(ace-window beacon company counsel diminish edit-indirect forge github-review go-mode gruvbox-theme
-                modus-themes nix-mode rainbow-delimiters realgud-lldb rust-mode solidity-mode
-                spacemacs-theme terraform-mode undo-tree wgrep-ag yaml-mode yasnippet zig-mode))
+   '(ace-window beacon company counsel diminish direnv edit-indirect forge github-review go-mode
+                gruvbox-theme modus-themes nix-mode rainbow-delimiters realgud-lldb rust-mode
+                solidity-mode spacemacs-theme terraform-mode undo-tree wgrep-ag yaml-mode yasnippet
+                zig-mode))
  '(safe-local-variable-values
    '((major-mode . gdb-script-mode) (explicit-shell-file-name . /bin/bash))))
 (custom-set-faces
