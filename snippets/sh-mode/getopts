@@ -1,8 +1,0 @@
-# -*- mode: snippet -*-
-# name: getopts
-# key: getopts
-# --
-local opt OPTIND OPTARG
-while getopts "${1:optstr}" opt; do
-      $0
-done
