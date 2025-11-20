@@ -144,7 +144,8 @@
   (CC c-mode c++-mode)
   (LISP emacs-lisp-mode scheme-mode-hook lisp-mode)
   (HOON hoon-mode)
-  (GUD gud-mode))
+  (GUD gud-mode)
+  (GO  go-mode))
 
  ;; overrides `subword-mode' :(
  ;; ("M-f" (forward-to-word G))
@@ -155,10 +156,6 @@
 
  ;; ("M-x" (counsel-M-x G))
  ;; ("M-X" (smex-major-mode-commands G))
-
- ;; macos edits
- ("M-`" (nil G))
-
 
  ("C-x"
     ("o" (ace-window G))
@@ -199,7 +196,8 @@
     ("C-s" (counsel-ag G))
     ("u" (browse-url G))
 
-    ("C-h" (man-follow CC))
+    ("C-h" (man-follow CC)
+           (godoc GO))
 
     ("C-d" (d-dired-dotfiles-toggle dired-mode))
     ("0 w" (d/copy-file:line G))
