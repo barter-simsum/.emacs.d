@@ -148,6 +148,12 @@
  ;; ("M-f" (forward-to-word G))
  ;; ("M-b" (backward-to-word G))
 
+ ;;
+ ;; N.B. hardcoded values for 13.6in M2 MacBook
+ ;;
+ ("C-<home>" ((lambda () (interactive) (set-frame-position (selected-frame) 0 0)) G))
+ ("C-<end>" ((lambda () (interactive) (set-frame-position (selected-frame) 850 0)) G))
+
  ;; map
  ("M-<f12>" (d/load-next-theme G))
 
@@ -155,13 +161,13 @@
  ;; ("M-X" (smex-major-mode-commands G))
 
  ("C-x"
+    ("5 l" (ns-prev-frame G))
     ("o" (ace-window G))
     ("C-b" (ibuffer G))
-    ;; ("C-f" (counsel-find-file G))
-    ;; ("u" (undo-tree-visualize G))
-    ;; ("b" (ivy-switch-buffer G))
-    ("x g" (revert-buffer G))
-    )
+    ;;   ("C-f" (counsel-find-file G))
+    ;;   ("u" (undo-tree-visualize G))
+    ;;   ("b" (ivy-switch-buffer G))
+    ("x g" (revert-buffer G)))
 
  ("C-c"
     ;; GLOBAL
@@ -197,8 +203,7 @@
 
     ("C-d" (d-dired-dotfiles-toggle dired-mode))
     ("0 w" (d/copy-file:line G))
-    ("c" (compile G))
-    )
+    ("c" (compile G)))
 
  ("C-S-s" (occur G)))
 
