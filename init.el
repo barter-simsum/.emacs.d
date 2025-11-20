@@ -204,32 +204,10 @@
     ("c" (compile G))
     )
 
- ("C-S-s" (occur G))
+ ("C-S-s" (occur G)))
 
 ;;;; ===========================================================================
 ;;;;                                   temporary
-
- ;; HOON
- ;; useful if we're planning on adding indent and/or alignment to `hoon
- ("C-X v" ((lambda () (interactive) (message (format "%s" (parse-partial-sexp 786 832)))) HOON))
-
- ;; for whatever reason, the current definition of `make-frame-command'
- ;;
- ;; (if (display-graphic-p)
- ;;     (make-frame)
- ;;   (select-frame (make-frame)))
- ;;
- ;; Doesn't actually select the newly created frame. Redefining as such works though
- ;; has the effect of only allowing two though.
- ;;
- ;; see google: emacs make-frame gnome "is ready"
- ;;     google: gnome allow focus stealing
- ;;     https://major.io/2015/07/06/allow-new-windows-to-steal-focus-in-gnome-3/#:~:text=Open%20dconf%2Deditor%20and%20navigate,and%20you%20can%20select%20strict.
- ;;
- ;; ("C-x 5 2" ((lambda () (interactive) (switch-to-buffer-other-frame (current-buffer)))
- ;;             G))
-
- )
 
 (define-key org-mode-map (kbd "C-<tab>") 'org-global-cycle)
 
@@ -260,10 +238,9 @@
 (add-to-list 'auto-mode-alist '("\\Dockerfile\\'" . conf-mode))
 (add-to-list 'auto-mode-alist '("\\.j2\\'" . jinja2-mode))
 
-
 
 ;;;; ===========================================================================
-;;;;                             general configuration
+;;;;                               frames/windows
 
 (defun frame-set-new-coordinates ()
   (let* ((max-left-off 850)
@@ -293,6 +270,11 @@
 
   (advice-add 'make-frame-command
               :before 'frame-set-new-coordinates))
+
+
+;;;; ===========================================================================
+;;;;                             general configuration
+
 
 ;; only warn about file local variables when considered unsafe
 (setq enable-local-variables t)
@@ -463,7 +445,7 @@
 
 
 ;;;; ===========================================================================
-;;;;                                     visual
+;;;;                                misc. visual
 
 ;; get rid of greeting screen
 (setq inhibit-startup-message t)
@@ -571,20 +553,7 @@
     '(mode-line ((t (:box (:line-width (1 . 1) :color "#5a5a5a") :foreground "#000000" :background "cyan" :inherit modus-themes-ui-variable-pitch))))
     '(mode-line-inactive ((t (:box (:line-width (1 . 1) :color "#00cdcd") :foreground "#000000" :background "cyan3" :inherit modus-themes-ui-variable-pitch))))
     )
-   ))
- 
- ;; (gruvbox-dark-hard
- ;;  :before
- ;;  ((mapc #'disable-theme custom-enabled-themes)
- ;;   )
- ;;  )
-
- ;; (gruvbox-light-hard
- ;;  :before
- ;;  ((mapc #'disable-theme custom-enabled-themes)
- ;;   )
- ;;  )
- )
+   )))
 
 ;; loads first theme. Subsequent calls load the next
 (d/load-next-theme)
