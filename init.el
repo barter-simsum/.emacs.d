@@ -11,13 +11,14 @@
 ;;			 ("marmalade" . "http://marmalade-repo.org/packages/")
                          ))
 (let* ((packages '(
+                   sketch-themes
+                   almost-mono-themes
                    modus-themes
                    spacemacs-theme
                    gruvbox-theme
                    diminish
 
                    ace-window
-                   avy
                    avy
                    beacon
                    company
@@ -26,7 +27,6 @@
                    ivy
                    magit
                    nix-mode
-                   rainbow-delimiters
                    solidity-mode
                    undo-tree
                    wgrep
@@ -102,7 +102,6 @@
 (require 'magit)
 (require 'misc)
 (require 'package)
-(require 'rainbow-delimiters)
 (require 'seq)
 (require 'undo-tree)
 (require 'which-key)
@@ -349,6 +348,10 @@
   (setq avy-keys keys)
   (setq aw-keys keys))
 
+;; set custom font for ace-window
+(if (not (member "fixedsys" (font-family-list))) (message "==INIT: font:fixedsys could not be found on system")
+  (custom-set-faces '(aw-leading-char-face ((t (:foreground "red" :height 4.0 :family "fixedsys"))))))
+
 
 ;;;; ===========================================================================
 ;;;;                            company can stay for now
@@ -455,72 +458,50 @@
 (beacon-mode 1)
 (diminish 'beacon-mode)
 
-(add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
-
-;; (use-package gruvbox-theme :ensure t)
-;; (use-package modus-operandi-theme :ensure t)
-;; (use-package modus-vivendi-theme :ensure t)
-;; (add-to-list 'custom-theme-load-path "~/.emacs.d/themes/gruvbox")
-
+
+;;
+;;
+;; To choose a face for customization, the following are useful
+;; - `list-faces-display' - display full range of faces to choose from
+;; - C-u C-x =            - display list of faces overlaying current line
+;;
+;;
+(require 'cus-face)
 (d/defthemes
- ;; pretty ugly. doing this so that we can easily visually differentiate emacs sessions using the
- ;; modeline color while keeping the theme the same. Could rewrite if we cared.
- (modus-vivendi
-  :before
-  ((mapc #'disable-theme custom-enabled-themes)
-   )
-  :after
-  ((custom-set-faces
-    '(mode-line ((t (:box (:line-width (1 . 1) :color "#959595") :foreground "#ffffff" :background "#505050" :inherit m (modus-operandi
-  :before
-  ((mapc #'disable-theme custom-enabled-themes))
-  :after
-  ((custom-set-faces
-    '(mode-line ((t (:box (:line-width (1 . 1) :color "#5a5a5a") :foreground "#000000" :background "cyan" :inherit modus-themes-ui-variable-pitch))))
-    '(mode-line-inactive ((t (:box (:line-width (1 . 1) :color "#00cdcd") :foreground "#000000" :background "cyan3" :inherit modus-themes-ui-variable-pitch))))
-    )
-   ))odus-themes-ui-variable-pitch))))
-    '(mode-line-inactive ((t (:box (:line-width (1 . 1) :color "#606060") :foreground "#969696" :background "#2d2d2d" :inherit modus-themes-ui-variable-pitch)))))
-   ))
- (modus-operandi-tinted
-  :before
-  ((mapc #'disable-theme custom-enabled-themes)
-   )
-  :after
-  ((custom-set-faces
-    '(mode-line ((t (:box (:line-width (1 . 1) :color "#5a5a5a") :foreground "#000000" :background "#c8c8c8" :inherit modus-themes-ui-variable-pitch))))
-    '(mode-line-inactive ((t (:box (:line-width (1 . 1) :color "#a3a3a3") :foreground "#585858" :background "#e6e6e6" :inherit modus-themes-ui-variable-pitch)))))
-   ))
- (modus-operandi-tinted
-  :before
-  ((mapc #'disable-theme custom-enabled-themes)
-   )
-  :after
-  ((custom-set-faces
-    '(mode-line ((t (:box (:line-width (1 . 1) :color "#7fff00") :foreground "#000000" :background "chartreuse1" :inherit modus-themes-ui-variable-pitch))))
-    '(mode-line-inactive ((t (:box (:line-width (1 . 1) :color "#66cd00") :foreground "#000000" :background "chartreuse3" :inherit modus-themes-ui-variable-pitch))))
-    )
-   ))
- (modus-operandi-tinted
-  :before
-  ((mapc #'disable-theme custom-enabled-themes)
-   )
-  :after
-  ((custom-set-faces
-    '(mode-line ((t (:box (:line-width (1 . 1) :color "#ffff00") :foreground "#000000" :background "yellow1" :inherit modus-themes-ui-variable-pitch))))
-    '(mode-line-inactive ((t (:box (:line-width (1 . 1) :color "#cdcd00") :foreground "#000000" :background "yellow3" :inherit modus-themes-ui-variable-pitch))))
-    )
-   ))
- (modus-operandi-tinted
-  :before
-  ((mapc #'disable-theme custom-enabled-themes)
-   )
-  :after
-  ((custom-set-faces
-    '(mode-line ((t (:box (:line-width (1 . 1) :color "#5a5a5a") :foreground "#000000" :background "cyan" :inherit modus-themes-ui-variable-pitch))))
-    '(mode-line-inactive ((t (:box (:line-width (1 . 1) :color "#00cdcd") :foreground "#000000" :background "cyan3" :inherit modus-themes-ui-variable-pitch))))
-    )
-   )))
+ (almost-mono-white     :before ((mapc #'disable-theme custom-enabled-themes))
+                        :after  ((custom-set-faces '(mode-line ((t (:box (:line-width (1 . 1) :color "#5a5a5a") :foreground "#000000" :background "#c8c8c8" :inherit modus-themes-ui-variable-pitch))))
+                                                   '(mode-line-inactive ((t (:box (:line-width (1 . 1) :color "#a3a3a3") :foreground "#585858" :background "#e6e6e6" :inherit modus-themes-ui-variable-pitch))))
+                                                   '(show-paren-match-expression ((t (:background "#dddddd")))))))
+
+ ;; (almost-mono-cream  :before ((mapc #'disable-theme custom-enabled-themes)))
+ ;; (almost-mono-gray   :before ((mapc #'disable-theme custom-enabled-themes)))
+ ;; (almost-mono-black  :before ((mapc #'disable-theme custom-enabled-themes)))
+
+ (sketch-white          :before ((mapc #'disable-theme custom-enabled-themes))
+                        :after  ((custom-set-faces '(mode-line ((t (:box (:line-width (1 . 1) :color "#5a5a5a") :foreground "#000000" :background "#c8c8c8" :inherit modus-themes-ui-variable-pitch))))
+                                                   '(mode-line-inactive ((t (:box (:line-width (1 . 1) :color "#a3a3a3") :foreground "#585858" :background "#e6e6e6" :inherit modus-themes-ui-variable-pitch))))
+                                                   '(show-paren-match-expression ((t (:background "#dddddd")))))))
+
+ (modus-vivendi         :before ((mapc #'disable-theme custom-enabled-themes))
+                        :after  ((custom-set-faces '(mode-line ((t (:box (:line-width (1 . 1) :color "#959595") :foreground "#ffffff" :background "505050" :inherit modus-themes-ui-variable-pitch))))
+                                                   '(mode-line-inactive ((t (:box (:line-width (1 . 1) :color "#606060") :foreground "#969696" :background "2d2d2d" :inherit modus-themes-ui-variable-pitch)))))))
+
+ (modus-operandi-tinted :before ((mapc #'disable-theme custom-enabled-themes))
+                        :after  ((custom-set-faces '(mode-line ((t (:box (:line-width (1 . 1) :color "#5a5a5a") :foreground "#000000" :background "#c8c8c8" :inherit modus-themes-ui-variable-pitch))))
+                                                   '(mode-line-inactive ((t (:box (:line-width (1 . 1) :color "#a3a3a3") :foreground "#585858" :background "#e6e6e6" :inherit modus-themes-ui-variable-pitch)))))))
+
+ (modus-operandi-tinted :before ((mapc #'disable-theme custom-enabled-themes))
+                        :after  ((custom-set-faces '(mode-line ((t (:box (:line-width (1 . 1) :color "#7fff00") :foreground "#000000" :background "chartreuse1" :inherit modus-themes-ui-variable-pitch))))
+                                                   '(mode-line-inactive ((t (:box (:line-width (1 . 1) :color "#66cd00") :foreground "#000000" :background "chartreuse3" :inherit modus-themes-ui-variable-pitch)))))))
+
+ (modus-operandi-tinted :before ((mapc #'disable-theme custom-enabled-themes))
+                        :after  ((custom-set-faces '(mode-line ((t (:box (:line-width (1 . 1) :color "#ffff00") :foreground "#000000" :background "yellow1" :inherit modus-themes-ui-variable-pitch))))
+                                                   '(mode-line-inactive ((t (:box (:line-width (1 . 1) :color "#cdcd00") :foreground "#000000" :background "yellow3" :inherit modus-themes-ui-variable-pitch)))))))
+
+ (modus-operandi-tinted :before ((mapc #'disable-theme custom-enabled-themes))
+                        :after  ((custom-set-faces '(mode-line ((t (:box (:line-width (1 . 1) :color "#5a5a5a") :foreground "#000000" :background "cyan" :inherit modus-themes-ui-variable-pitch))))
+                                                   '(mode-line-inactive ((t (:box (:line-width (1 . 1) :color "#00cdcd") :foreground "#000000" :background "cyan3" :inherit modus-themes-ui-variable-pitch))))))))
+
 
 ;; loads first theme. Subsequent calls load the next
 (d/load-next-theme)
@@ -710,7 +691,8 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(custom-safe-themes
-   '("6bf350570e023cd6e5b4337a6571c0325cec3f575963ac7de6832803df4d210a"
+   '("77f281064ea1c8b14938866e21c4e51e4168e05db98863bd7430f1352cab294a"
+     "6bf350570e023cd6e5b4337a6571c0325cec3f575963ac7de6832803df4d210a"
      "5e39e95c703e17a743fb05a132d727aa1d69d9d2c9cde9353f5350e545c793d4"
      "a9028cd93db14a5d6cdadba789563cb90a97899c4da7df6f51d58bb390e54031"
      "712dda0818312c175a60d94ba676b404fc815f8c7e6c080c9b4061596c60a1db" default))
@@ -718,18 +700,11 @@
  '(markdown-split-window-direction 'right)
  '(org-export-backends '(ascii html icalendar latex md odt))
  '(package-selected-packages
-   '(ace-window beacon company counsel csound-mode diminish direnv docker-compose-mode edit-indirect
-                forge github-review go-mode graphviz-dot-mode gruvbox-theme jinja2-mode json-mode
-                modus-themes nix-mode rainbow-delimiters realgud-lldb rust-mode solidity-mode
-                spacemacs-theme telega terraform-mode typescript-mode undo-tree wgrep-ag which-key
-                yasnippet-snippets zig-mode))
+   '(ace-window almost-mono-themes beacon company counsel csound-mode diminish direnv
+                docker-compose-mode edit-indirect forge github-review go-mode graphviz-dot-mode
+                gruvbox-theme jinja2-mode json-mode modus-themes nix-mode realgud-lldb rust-mode
+                sketch-themes solidity-mode spacemacs-theme telega terraform-mode typescript-mode
+                undo-tree wgrep-ag which-key yasnippet-snippets zig-mode))
  '(safe-local-variable-values
    '((major-mode . gdb-script-mode) (explicit-shell-file-name . /bin/bash))))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(mode-line ((t (:box (:line-width (1 . 1) :color "#959595") :foreground "#ffffff" :background "#505050" :inherit m (modus-operandi :before ((mapc #'disable-theme custom-enabled-themes)) :after ((custom-set-faces '(mode-line ((t (:box (:line-width (1 . 1) :color "#5a5a5a") :foreground "#000000" :background "cyan" :inherit modus-themes-ui-variable-pitch)))) '(mode-line-inactive ((t (:box (:line-width (1 . 1) :color "#00cdcd") :foreground "#000000" :background "cyan3" :inherit modus-themes-ui-variable-pitch))))))) odus-themes-ui-variable-pitch))))
- '(mode-line-inactive ((t (:box (:line-width (1 . 1) :color "#606060") :foreground "#969696" :background "#2d2d2d" :inherit modus-themes-ui-variable-pitch)))))
 (put 'dired-find-alternate-file 'disabled nil)
