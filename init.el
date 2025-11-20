@@ -727,11 +727,15 @@
      "5e39e95c703e17a743fb05a132d727aa1d69d9d2c9cde9353f5350e545c793d4"
      "a9028cd93db14a5d6cdadba789563cb90a97899c4da7df6f51d58bb390e54031"
      "712dda0818312c175a60d94ba676b404fc815f8c7e6c080c9b4061596c60a1db" default))
+ '(help-window-select t)
+ '(markdown-split-window-direction 'right)
+ '(org-export-backends '(ascii html icalendar latex md odt))
  '(package-selected-packages
-   '(ace-window beacon company counsel diminish direnv edit-indirect forge github-review go-mode
-                gruvbox-theme modus-themes nix-mode rainbow-delimiters realgud-lldb rust-mode
-                solidity-mode spacemacs-theme terraform-mode undo-tree wgrep-ag yaml-mode yasnippet
-                zig-mode))
+   '(ace-window beacon company counsel csound-mode diminish direnv docker-compose-mode edit-indirect
+                forge github-review go-mode graphviz-dot-mode gruvbox-theme jinja2-mode json-mode
+                modus-themes nix-mode rainbow-delimiters realgud-lldb rust-mode solidity-mode
+                spacemacs-theme telega terraform-mode typescript-mode undo-tree wgrep-ag which-key
+                yasnippet-snippets zig-mode))
  '(safe-local-variable-values
    '((major-mode . gdb-script-mode) (explicit-shell-file-name . /bin/bash))))
 (custom-set-faces
@@ -739,7 +743,6 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(ivy-current-match ((t (:foreground "chartreuse3" :underline t :weight bold))))
  '(mode-line ((t (:box (:line-width (1 . 1) :color "#959595") :foreground "#ffffff" :background "#505050" :inherit m (modus-operandi :before ((mapc #'disable-theme custom-enabled-themes)) :after ((custom-set-faces '(mode-line ((t (:box (:line-width (1 . 1) :color "#5a5a5a") :foreground "#000000" :background "cyan" :inherit modus-themes-ui-variable-pitch)))) '(mode-line-inactive ((t (:box (:line-width (1 . 1) :color "#00cdcd") :foreground "#000000" :background "cyan3" :inherit modus-themes-ui-variable-pitch))))))) odus-themes-ui-variable-pitch))))
  '(mode-line-inactive ((t (:box (:line-width (1 . 1) :color "#606060") :foreground "#969696" :background "#2d2d2d" :inherit modus-themes-ui-variable-pitch)))))
 (put 'dired-find-alternate-file 'disabled nil)
