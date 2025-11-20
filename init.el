@@ -14,8 +14,6 @@
                    sketch-themes
                    almost-mono-themes
                    modus-themes
-                   spacemacs-theme
-                   gruvbox-theme
                    diminish
 
                    ace-window
@@ -82,7 +80,7 @@
 
 (require 'd:misc)
 (require 'd:org)
-(require 'd:better-theme-switching)
+(require 'd:theme)
 (require 'd:dired)
 
 
@@ -459,55 +457,6 @@
 (diminish 'beacon-mode)
 
 
-;;
-;;
-;; To choose a face for customization, the following are useful
-;; - `list-faces-display' - display full range of faces to choose from
-;; - C-u C-x =            - display list of faces overlaying current line
-;;
-;;
-(require 'cus-face)
-(d/defthemes
- (almost-mono-white     :before ((mapc #'disable-theme custom-enabled-themes))
-                        :after  ((custom-set-faces '(mode-line ((t (:box (:line-width (1 . 1) :color "#5a5a5a") :foreground "#000000" :background "#c8c8c8" :inherit modus-themes-ui-variable-pitch))))
-                                                   '(mode-line-inactive ((t (:box (:line-width (1 . 1) :color "#a3a3a3") :foreground "#585858" :background "#e6e6e6" :inherit modus-themes-ui-variable-pitch))))
-                                                   '(show-paren-match-expression ((t (:background "#dddddd")))))))
-
- ;; (almost-mono-cream  :before ((mapc #'disable-theme custom-enabled-themes)))
- ;; (almost-mono-gray   :before ((mapc #'disable-theme custom-enabled-themes)))
- ;; (almost-mono-black  :before ((mapc #'disable-theme custom-enabled-themes)))
-
- (sketch-white          :before ((mapc #'disable-theme custom-enabled-themes))
-                        :after  ((custom-set-faces '(mode-line ((t (:box (:line-width (1 . 1) :color "#5a5a5a") :foreground "#000000" :background "#c8c8c8" :inherit modus-themes-ui-variable-pitch))))
-                                                   '(mode-line-inactive ((t (:box (:line-width (1 . 1) :color "#a3a3a3") :foreground "#585858" :background "#e6e6e6" :inherit modus-themes-ui-variable-pitch))))
-                                                   '(show-paren-match-expression ((t (:background "#dddddd")))))))
-
- (modus-vivendi         :before ((mapc #'disable-theme custom-enabled-themes))
-                        :after  ((custom-set-faces '(mode-line ((t (:box (:line-width (1 . 1) :color "#959595") :foreground "#ffffff" :background "505050" :inherit modus-themes-ui-variable-pitch))))
-                                                   '(mode-line-inactive ((t (:box (:line-width (1 . 1) :color "#606060") :foreground "#969696" :background "2d2d2d" :inherit modus-themes-ui-variable-pitch)))))))
-
- (modus-operandi-tinted :before ((mapc #'disable-theme custom-enabled-themes))
-                        :after  ((custom-set-faces '(mode-line ((t (:box (:line-width (1 . 1) :color "#5a5a5a") :foreground "#000000" :background "#c8c8c8" :inherit modus-themes-ui-variable-pitch))))
-                                                   '(mode-line-inactive ((t (:box (:line-width (1 . 1) :color "#a3a3a3") :foreground "#585858" :background "#e6e6e6" :inherit modus-themes-ui-variable-pitch)))))))
-
- (modus-operandi-tinted :before ((mapc #'disable-theme custom-enabled-themes))
-                        :after  ((custom-set-faces '(mode-line ((t (:box (:line-width (1 . 1) :color "#7fff00") :foreground "#000000" :background "chartreuse1" :inherit modus-themes-ui-variable-pitch))))
-                                                   '(mode-line-inactive ((t (:box (:line-width (1 . 1) :color "#66cd00") :foreground "#000000" :background "chartreuse3" :inherit modus-themes-ui-variable-pitch)))))))
-
- (modus-operandi-tinted :before ((mapc #'disable-theme custom-enabled-themes))
-                        :after  ((custom-set-faces '(mode-line ((t (:box (:line-width (1 . 1) :color "#ffff00") :foreground "#000000" :background "yellow1" :inherit modus-themes-ui-variable-pitch))))
-                                                   '(mode-line-inactive ((t (:box (:line-width (1 . 1) :color "#cdcd00") :foreground "#000000" :background "yellow3" :inherit modus-themes-ui-variable-pitch)))))))
-
- (modus-operandi-tinted :before ((mapc #'disable-theme custom-enabled-themes))
-                        :after  ((custom-set-faces '(mode-line ((t (:box (:line-width (1 . 1) :color "#5a5a5a") :foreground "#000000" :background "cyan" :inherit modus-themes-ui-variable-pitch))))
-                                                   '(mode-line-inactive ((t (:box (:line-width (1 . 1) :color "#00cdcd") :foreground "#000000" :background "cyan3" :inherit modus-themes-ui-variable-pitch))))))))
-
-
-;; loads first theme. Subsequent calls load the next
-(d/load-next-theme)
-
-
-
 ;;;; ===========================================================================
 ;;;;                     text(formatting|nav)/programming langs
 
@@ -702,9 +651,9 @@
  '(package-selected-packages
    '(ace-window almost-mono-themes beacon company counsel csound-mode diminish direnv
                 docker-compose-mode edit-indirect forge github-review go-mode graphviz-dot-mode
-                gruvbox-theme jinja2-mode json-mode modus-themes nix-mode realgud-lldb rust-mode
-                sketch-themes solidity-mode spacemacs-theme telega terraform-mode typescript-mode
-                undo-tree wgrep-ag which-key yasnippet-snippets zig-mode))
+                jinja2-mode json-mode modus-themes nix-mode realgud-lldb rust-mode sketch-themes
+                solidity-mode telega terraform-mode typescript-mode undo-tree wgrep-ag which-key
+                yasnippet-snippets zig-mode))
  '(safe-local-variable-values
    '((major-mode . gdb-script-mode) (explicit-shell-file-name . /bin/bash))))
 (put 'dired-find-alternate-file 'disabled nil)
