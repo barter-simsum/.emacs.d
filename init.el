@@ -48,6 +48,7 @@
                    yaml-mode
                    terraform-mode
                    direnv
+                   graphviz-dot-mode
                     ))
        (notinstalled (seq-filter #'(lambda (pkg) (not (package-installed-p pkg)))
                                  packages)))
@@ -108,6 +109,7 @@
 (require 'github-review)
 (require 'realgud)
 (require 'direnv)
+(require 'graphviz-dot-mode)
 
 
 ;;;; ===========================================================================

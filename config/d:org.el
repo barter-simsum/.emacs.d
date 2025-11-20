@@ -36,7 +36,7 @@
  '((python . t)
    (C . t)
    ;; (R . t)
-   ;; (dot . t)
+   (dot . t)
    (lisp . t)
    (shell . t)
    (scheme . t)
