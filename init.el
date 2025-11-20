@@ -172,12 +172,11 @@
     ("C-g" (gdb-frame-disassembly-buffer GUD)) ;show disasm in new frame
     )
 
- ;; ("C-h"
- ;;    ("v" (counsel-describe-variable G))
- ;;    ("f" (counsel-describe-function G))
- ;;    ("l" (counsel-find-library G))
- ;;    ("S" (counsel-info-lookup-symbol G))
- ;;     )
+ ("C-h"
+    ("m" (describe-mode G))
+    ("f" (describe-function G))
+    ("l" (find-library G))
+    ("i" (info G)))
 
  ("C-<tab>" (magit-section-cycle-diffs magit-status-mode))
  ("C-;"
