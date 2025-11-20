@@ -240,39 +240,6 @@
 
 
 ;;;; ===========================================================================
-;;;;                               frames/windows
-
-(defun frame-set-new-coordinates ()
-  (let* ((max-left-off 850)
-         (min-left-off 0)
-         (left-off (frame-parameter (selected-frame)
-                                    'left))
-         ;; given a C-u, open frame on right side of screen, otherwise offset it from the current
-         ;; frame either left or right. The type check is to guard against when frame is partly
-         ;; off-screen and left. In this case, open the new frame on left side of screen
-         (new-left-off (cond (current-prefix-arg max-left-off)
-                             ((eq (type-of left-off) 'cons) min-left-off)
-                             (t (+ left-off 50)))))
-    (setf (alist-get 'left default-frame-alist)
-          new-left-off)))
-
-(when (display-graphic-p)
-  ;; `default-frame-alist' controls new frame position on `make-frame-command'
-  ;; `initial-frame-alist' controls frame position on startup
-  (setq default-frame-alist
-        '((width  . 117)
-          (height . 100)
-          (top    . 200)
-          (left   . 0)))
-  ;; setting `initial-frame-alist' doesn't seem sufficient for position the first frame on
-  ;; startup...
-  (setq initial-frame-alist default-frame-alist)
-
-  (advice-add 'make-frame-command
-              :before 'frame-set-new-coordinates))
-
-
-;;;; ===========================================================================
 ;;;;                             general configuration
 
 
@@ -680,7 +647,58 @@
 (setq github-review-view-comments-in-code-lines t
       github-review-view-comments-in-code-lines-outdated nil)
 
+
+;;;; ===========================================================================
+;;;;                               frames/windows
 
+;;
+;; N.B. all of these raw frame coordinate values are specific to 13.6in M2 MacBook
+;; Air. Additionally, it's important this code be run pretty late in the execution of init.el. When
+;; executed earlier, the "initial frame creation hack" resulted in a frame of < maximal
+;; height. (Maybe it has something to do with buffer/visual changes in init.el? IDK)
+;;
+
+(defun frame-set-new-coordinates ()
+  (let* ((lmin 0)
+         (lmax 850)
+         (lold (frame-parameter (selected-frame) 'left))
+         ;; given a prefix arg, open frame on right side of screen, otherwise offset it from the
+         ;; current frame either left or right. The type check is to guard against when frame is
+         ;; partly off-screen and left. In this case, open the new frame on left side of
+         ;; screen. Disable offset behavior if old frame is fullscreen
+         (width (frame-parameter (selected-frame) 'width))
+         (is-fullscreen (eq 239 width))
+         (lnew (cond (current-prefix-arg lmax)
+                     (is-fullscreen  lmin)
+                     ((eq (type-of lold) 'cons) lmin)
+                     ((eq lold lmax) lmin)
+                     (t (+ lold 50)))))
+    ;; set the new left position
+    (setf (alist-get 'left default-frame-alist)
+          lnew)))
+
+(when (display-graphic-p)
+  (select-frame-set-input-focus (selected-frame))
+
+  ;; `default-frame-alist' controls new frame position on `make-frame-command'
+  (setq default-frame-alist
+        '((width  . 117)
+          (height . 80)
+          (top    . 0)
+          (left   . 0)))
+  ;; `initial-frame-alist' controls frame position on startup
+  (setq initial-frame-alist (copy-alist default-frame-alist))
+
+  ;; Initial frame creation hack:
+  ;; for some reason, setting `initial-frame-alist' isn't sufficient to correctly position the
+  ;; initial frame on startup, so kill the old one and make a new one
+  ;; (select-frame (make-frame initial-frame-alist))
+  (select-frame (make-frame initial-frame-alist))
+  (delete-frame (cadr (frame-list)))
+
+  ;; advise `make-frame-command' to behave the way we want
+  (advice-add 'make-frame-command
+              :before 'frame-set-new-coordinates))
 
 
 ;;;; ===========================================================================
