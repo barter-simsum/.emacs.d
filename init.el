@@ -337,17 +337,27 @@
 (winner-mode)
 
 ;; avy for faster navigation inside and outside buffers
-(let ((keys '(?a ?s ?d ?f ?g
+(setq avy-keys '(?a ?s ?d ?f ?g
                  ?h ?j ?k ?l ?\;
                  ?q ?w ?e ?r ?t
-                 ?u ?i ?o ?p
-                 ?m ?n)))
-  (setq avy-keys keys)
-  (setq aw-keys keys))
+                 ?u ?i ?o ?p ?m
+                 ?n))
+(setq aw-keys  '(?A ?S ?D ?F ?G
+                 ?H ?J ?K ?L ?\;
+                 ?Q ?W ?E ?R ?T
+                 ?U ?I ?O ?P ?M
+                 ?N))
+
+;; (?A . ?Z) == (65 . 90)
+;; (?a . ?z) == (97 . 122)
+(setq aw-translate-char-function
+      (lambda (c) (cond ((and (>= c 97) (<= c 122)) (- c 32)) ;a-z -> A-Z
+                   ((eq c 32) ?A)                        ;SPC -> A
+                   (t c))))
 
 ;; set custom font for ace-window
 (if (not (member "fixedsys" (font-family-list))) (message "==INIT: font:fixedsys could not be found on system")
-  (custom-set-faces '(aw-leading-char-face ((t (:foreground "red" :height 4.0 :family "fixedsys"))))))
+  (set-face-attribute 'aw-leading-char-face nil :foreground "red" :height 4.0 :family "fixedsys"))
 
 
 ;;;; ===========================================================================
