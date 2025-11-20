@@ -259,11 +259,34 @@
 ;;;; ===========================================================================
 ;;;;                             general configuration
 
+(defun frame-set-new-coordinates ()
+  (let* ((max-left-off 850)
+         (min-left-off 0)
+         (left-off (frame-parameter (selected-frame)
+                                    'left))
+         ;; given a C-u, open frame on right side of screen, otherwise offset it from the current
+         ;; frame either left or right. The type check is to guard against when frame is partly
+         ;; off-screen and left. In this case, open the new frame on left side of screen
+         (new-left-off (cond (current-prefix-arg max-left-off)
+                             ((eq (type-of left-off) 'cons) min-left-off)
+                             (t (+ left-off 50)))))
+    (setf (alist-get 'left default-frame-alist)
+          new-left-off)))
+
 (when (display-graphic-p)
+  ;; `default-frame-alist' controls new frame position on `make-frame-command'
+  ;; `initial-frame-alist' controls frame position on startup
   (setq default-frame-alist
-        '((width . 117)
+        '((width  . 117)
           (height . 100)
-          (top . 200))))
+          (top    . 200)
+          (left   . 0)))
+  ;; setting `initial-frame-alist' doesn't seem sufficient for position the first frame on
+  ;; startup...
+  (setq initial-frame-alist default-frame-alist)
+
+  (advice-add 'make-frame-command
+              :before 'frame-set-new-coordinates))
 
 ;; only warn about file local variables when considered unsafe
 (setq enable-local-variables t)
