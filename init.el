@@ -630,7 +630,25 @@
   (advice-add 'make-frame-command
               :before 'frame-set-new-coordinates))
 
+
+;;;; ===========================================================================
+;;;;                                    modeline
+(setq-default mode-line-format
+              '("%e" mode-line-front-space
+                (:propertize
+                 ("" mode-line-mule-info mode-line-client mode-line-modified mode-line-remote
+                  mode-line-window-dedicated)
+                 display (min-width (6.0)))
 
+                ;; PID of current emacs process
+                (:eval (propertize (concat "[" (format "%d" (emacs-pid)) "]")
+                                   'face 'italic))
+
+                mode-line-frame-identification mode-line-buffer-identification "   "
+                mode-line-position (project-mode-line project-mode-line-format)
+                (vc-mode vc-mode) "  " mode-line-modes mode-line-misc-info mode-line-end-spaces))
+
+
 ;;;; ===========================================================================
 ;;;;                                     custom
 
