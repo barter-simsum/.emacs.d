@@ -34,6 +34,7 @@
                    which-key
                    winner
                    yasnippet
+                   yasnippet-snippets
                    markdown-mode
                    edit-indirect        ;required by markdown-mode to edit codeblocks
 
@@ -48,6 +49,9 @@
                    yaml-mode
                    terraform-mode
                    direnv
+                   docker-compose-mode
+                   typescript-mode
+                   json-mode
                    graphviz-dot-mode
                     ))
        (notinstalled (seq-filter #'(lambda (pkg) (not (package-installed-p pkg)))
@@ -255,6 +259,8 @@
 (add-to-list 'auto-mode-alist '("\\.BUILD\\'" . bazel-mode))
 (add-to-list 'auto-mode-alist '("\\.lldbinit\\'" . conf-mode))
 (add-to-list 'auto-mode-alist '("\\.lldb\\'" . conf-mode))
+(add-to-list 'auto-mode-alist '("\\Dockerfile\\'" . conf-mode))
+(add-to-list 'auto-mode-alist '("\\.j2\\'" . jinja2-mode))
 
 
 
