@@ -671,6 +671,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(Man-notify-method 'aggressive)
  '(custom-safe-themes
    '("77f281064ea1c8b14938866e21c4e51e4168e05db98863bd7430f1352cab294a"
      "6bf350570e023cd6e5b4337a6571c0325cec3f575963ac7de6832803df4d210a"
