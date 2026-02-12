@@ -6,18 +6,18 @@
 
 (add-hook 'org-mode-hook
           (lambda ()
-            (setq fill-column 100
-                  ;; redefines org's definition of paragraph start and end to be compatible with
-                  ;; evil mode's notion of "a paragraph"
-                  ;; paragraph-start "\\|[         ]*$"
-                  ;; paragraph-separate "[   ]*$"
-                  )
+             ;; (setq fill-column 80
+             ;;      ;; redefines org's definition of paragraph start and end to be compatible with
+             ;;      ;; evil mode's notion of "a paragraph"
+             ;;      ;; paragraph-start "\\|[         ]*$"
+             ;;      ;; paragraph-separate "[   ]*$"
+             ;;      )
             (auto-fill-mode 1)
             (org-indent-mode 1) ;soft indentation.
             (org-hide-block-all)
             ))
 
-(setq fill-column 100
+(setq ;;fill-column 80
       org-src-window-setup 'current-window ; sets where org-edit-special takes you (C-c ')
       org-hide-block-startup nil           ; don't hide blocks on startup
       org-startup-with-inline-images t
