@@ -48,6 +48,7 @@
                    terraform-mode
                    direnv
                    docker-compose-mode
+                   dockerfile-mode
                    typescript-mode
                    json-mode
                    graphviz-dot-mode
