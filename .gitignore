@@ -18,3 +18,4 @@
 *.elc
 /server/
 session.*
+.DS_Store
