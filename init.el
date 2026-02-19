@@ -2,6 +2,12 @@
 
 
 ;;;; ===========================================================================
+;;;;                               environment config
+
+(setq d/external-monitor t)
+
+
+;;;; ===========================================================================
 ;;;;                               package management
 
 (package-initialize)
@@ -603,24 +609,60 @@
 ;; height. (Maybe it has something to do with buffer/visual changes in init.el? IDK)
 ;;
 
-(defun frame-set-new-coordinates ()
-  (let* ((lmin 0)
-         (lmax 850)
-         (lold (frame-parameter (selected-frame) 'left))
-         ;; given a prefix arg, open frame on right side of screen, otherwise offset it from the
-         ;; current frame either left or right. The type check is to guard against when frame is
-         ;; partly off-screen and left. In this case, open the new frame on left side of
-         ;; screen. Disable offset behavior if old frame is fullscreen
-         (width (frame-parameter (selected-frame) 'width))
-         (is-fullscreen (eq 239 width))
-         (lnew (cond (current-prefix-arg lmax)
-                     (is-fullscreen  lmin)
-                     ((eq (type-of lold) 'cons) lmin)
-                     ((eq lold lmax) lmin)
-                     (t (+ lold 50)))))
-    ;; set the new left position
-    (setf (alist-get 'left default-frame-alist)
-          lnew)))
+;;
+;; m2-macbook-air
+;;
+(when (not d/external-monitor)
+  (defun frame-set-new-coordinates ()
+    (let* ((lmin 0)
+           (lmax 850)
+           (lold (frame-parameter (selected-frame) 'left))
+           ;; given a prefix arg, open frame on right side of screen, otherwise offset it from the
+           ;; current frame either left or right. The type check is to guard against when frame is
+           ;; partly off-screen and left. In this case, open the new frame on left side of
+           ;; screen. Disable offset behavior if old frame is fullscreen
+           (width (frame-parameter (selected-frame) 'width))
+           (is-fullscreen (eq 239 width))
+           (lnew (cond (current-prefix-arg lmax)
+                       (is-fullscreen  lmin)
+                       ((eq (type-of lold) 'cons) lmin)
+                       ((eq lold lmax) lmin)
+                       (t (+ lold 50)))))
+      ;; set the new left position
+      (setf (alist-get 'left default-frame-alist)
+            lnew))))
+
+;;
+;; lg DualUp monitor
+;;
+(when d/external-monitor
+  (defun frame-set-new-coordinates ()
+    (let* ((lmin 0)
+           (lmax 2026)
+           (lold (frame-parameter (selected-frame) 'left))
+           (told (frame-parameter (selected-frame) 'top))
+           (hold (frame-parameter (selected-frame) 'height))
+           ;; given a prefix arg, open frame right of current frame, otherwise offset it from the
+           ;; current frame either left or right. The type check is to guard against when frame is
+           ;; partly off-screen and left. In this case, open the new frame on left side of
+           ;; screen. Disable offset behavior if old frame is fullscreen
+
+           ;; (width (frame-parameter (selected-frame) 'width)) ;the 'width reported doesn't work additively with 'left
+           (width 855)
+           (lnew (cond (current-prefix-arg (if (> (+ lold width) lmax)
+                                               (- lold width)
+                                             (+ lold width)))
+                       ((eq (type-of lold) 'cons) lmin)
+                       ((> lold lmax) lmax)
+                       ((>= (+ lold 250) lmax) (- lold 50))
+                       (t (+ lold 50)))))
+      ;; set the new left position
+      (setf (alist-get 'left default-frame-alist)
+            lnew)
+      (setf (alist-get 'top default-frame-alist)
+            told)
+      (setf (alist-get 'height default-frame-alist)
+            hold))))
 
 (when (display-graphic-p)
   (select-frame-set-input-focus (selected-frame))
@@ -629,8 +671,8 @@
   (setq default-frame-alist
         '((width  . 117)
           (height . 80)
-          (top    . 0)
-          (left   . 0)))
+          (top    . 1358)
+          (left   . 1013)))
   ;; `initial-frame-alist' controls frame position on startup
   (setq initial-frame-alist (copy-alist default-frame-alist))
 
@@ -683,11 +725,17 @@
  '(markdown-split-window-direction 'right)
  '(org-export-backends '(ascii html icalendar latex md odt))
  '(package-selected-packages
-   '(ace-window almost-mono-themes beacon company counsel csound-mode diminish direnv
-                docker-compose-mode edit-indirect forge github-review go-mode graphviz-dot-mode
-                jinja2-mode json-mode modus-themes nix-mode realgud-lldb rust-mode sketch-themes
-                solidity-mode telega terraform-mode typescript-mode undo-tree wgrep-ag which-key
-                yasnippet-snippets zig-mode))
+   '(ace-window almost-mono-themes beacon company counsel diminish direnv docker-compose-mode
+                dockerfile-mode edit-indirect forge github-review go-mode graphviz-dot-mode
+                gruvbox-theme json-mode modus-themes nix-mode rainbow-delimiters realgud-lldb
+                rust-mode sketch-themes solidity-mode spacemacs-theme terraform-mode typescript-mode
+                undo-tree wgrep-ag yasnippet-snippets zig-mode))
  '(safe-local-variable-values
    '((major-mode . gdb-script-mode) (explicit-shell-file-name . /bin/bash))))
 (put 'dired-find-alternate-file 'disabled nil)
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
