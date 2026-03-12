@@ -413,10 +413,6 @@
 (setq dired-dwim-target t)
 ;; (setq dired-omit-mode t)                ;this hides .elc among others
 
-(add-hook 'org-mode-hook #'flyspell-mode)
-(add-hook 'text-mode-hook #'flyspell-mode)
-(add-hook 'prog-mode-hook #'flyspell-prog-mode)
-
 (setq tramp-default-method "ssh")
 
 
@@ -543,6 +539,7 @@
           (lambda ()
             (company-mode -1)))
 
+
 ;;;; ===========================================================================
 ;;;;                                system dependent
 
@@ -554,6 +551,7 @@
         dired-listing-switches "-al --group-directories-first"
         )
   )
+(setq dired-listing-switches "-alh --group-directories-first")
 
 (when (eq system-type 'gnu/linux)
   (setq browse-url-generic-program "firefox"
@@ -561,6 +559,17 @@
   )
 
 
+
+;;;; ===========================================================================
+;;;;                                   spellcheck
+
+(if (not (executable-find "hunspell")) (message "== missing hunspell in PATH")
+  (setenv "DICPATH" (concat (getenv "HOME") "/Library/Spelling"))
+  (setenv "DICTIONARY" "en_US-large")
+  (setq ispell-local-dictionary "en_US-large")
+  (add-hook 'org-mode-hook #'flyspell-mode)
+  (add-hook 'text-mode-hook #'flyspell-mode)
+  (add-hook 'prog-mode-hook #'flyspell-prog-mode))
 
 
 ;;;; ===========================================================================
