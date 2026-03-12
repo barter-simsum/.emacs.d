@@ -409,7 +409,7 @@
 ;;;; ===========================================================================
 ;;;;                                     dired
 
-(setq dired-listing-switches "-Al -v --human-readable")
+(setq dired-listing-switches "-Alh -v --human-readable")
 (setq dired-dwim-target t)
 ;; (setq dired-omit-mode t)                ;this hides .elc among others
 
