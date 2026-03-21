@@ -58,7 +58,8 @@
                    typescript-mode
                    json-mode
                    graphviz-dot-mode
-                    ))
+                   nov                  ;epub reader
+                   ))
        (notinstalled (seq-filter #'(lambda (pkg) (not (package-installed-p pkg)))
                                  packages)))
     (when notinstalled
@@ -245,6 +246,7 @@
 (add-to-list 'auto-mode-alist '("\\.lldb\\'" . conf-mode))
 (add-to-list 'auto-mode-alist '("\\Dockerfile\\'" . conf-mode))
 (add-to-list 'auto-mode-alist '("\\.j2\\'" . jinja2-mode))
+(add-to-list 'auto-mode-alist '("\\.epub\\'" . nov-mode))
 
 
 ;;;; ===========================================================================
@@ -609,6 +611,12 @@
 
 
 ;;;; ===========================================================================
+;;;;                               nov (epub reader)
+
+(setq nov-text-width 60)
+
+
+;;;; ===========================================================================
 ;;;;                               frames/windows
 
 ;;
@@ -734,11 +742,11 @@
  '(markdown-split-window-direction 'right)
  '(org-export-backends '(ascii html icalendar latex md odt))
  '(package-selected-packages
-   '(ace-window almost-mono-themes beacon company counsel diminish direnv docker-compose-mode
-                dockerfile-mode edit-indirect forge github-review go-mode graphviz-dot-mode
-                gruvbox-theme json-mode modus-themes nix-mode rainbow-delimiters realgud-lldb
-                rust-mode sketch-themes solidity-mode spacemacs-theme terraform-mode typescript-mode
-                undo-tree wgrep-ag yasnippet-snippets zig-mode))
+   '(ace-window almost-mono-themes beacon company counsel csound-mode diminish direnv
+                docker-compose-mode edit-indirect forge github-review go-mode graphviz-dot-mode
+                jinja2-mode json-mode list-unicode-display mermaid-mode modus-themes nix-mode nov
+                realgud-lldb rust-mode sketch-themes solidity-mode telega terraform-mode
+                typescript-mode undo-tree wgrep-ag which-key yasnippet-snippets zig-mode))
  '(safe-local-variable-values
    '((major-mode . gdb-script-mode) (explicit-shell-file-name . /bin/bash))))
 (put 'dired-find-alternate-file 'disabled nil)
