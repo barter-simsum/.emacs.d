@@ -1,5 +1,22 @@
 (setq source-directory "/home/d/.emacs.d/emacs-29.0.92/")
 
+;; TODO:
+;;
+;; Simplify typing completion. ivy, counsel, etc? involved here. Do we even need a package anymore?
+;;
+;; Configure undo-tree to ignore .envrc and other files we don't want to persist undo-tree history
+;; of to avoid leaking secrets
+;;
+;; Properly configure auto-save mode / backup-files. I think backups are working and saving to
+;; .emacs.d/backups. auto-save should be saving to .emacs.d/auto-save-files but idek the difference
+;; between these two things.
+;;
+;; Configure forge and github-review mode
+;;
+;; Learn more about org-mode. File tagging in particular. Use it more. Look into calendar functions
+;; etc.
+
+
 
 ;;;; ===========================================================================
 ;;;;                               environment config
@@ -21,11 +38,6 @@
                    almost-mono-themes
                    modus-themes
                    sketch-themes
-
-                   ;; TODO:
-                   ;;
-                   ;;   - Simplify typing completion. ivy, counsel, etc? involved here. Do we even
-                   ;;     need a package anymore?
 
                    ;; core functionality
                    ace-window
