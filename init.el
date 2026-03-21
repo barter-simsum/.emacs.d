@@ -17,48 +17,57 @@
 ;;			 ("marmalade" . "http://marmalade-repo.org/packages/")
                          ))
 (let* ((packages '(
-                   sketch-themes
+                   ;; themes
                    almost-mono-themes
                    modus-themes
-                   diminish
+                   sketch-themes
 
+                   ;; TODO:
+                   ;;
+                   ;;   - Simplify typing completion. ivy, counsel, etc? involved here. Do we even
+                   ;;     need a package anymore?
+
+                   ;; core functionality
                    ace-window
                    avy
                    beacon
                    company
                    counsel
+                   diminish
                    flyspell
                    ivy
                    magit
-                   nix-mode
-                   solidity-mode
-                   undo-tree
-                   wgrep
-                   wgrep-ag
+                   undo-tree            ;TODO: remove. think now part of emacs core
+                   wgrep                ;writeable grep buffer
+                   wgrep-ag             ;hooks into ag
                    which-key
-                   winner
+                   winner               ;restore old window configs
                    yasnippet
-                   yasnippet-snippets
-                   markdown-mode
-                   edit-indirect        ;required by markdown-mode to edit codeblocks
+                   yasnippet-snippets   ;pre-made snippets for ya
 
-                   rust-mode
-                   forge                ;magit interface for "forges", e.g. github
-                   github-review
-                   go-mode
-
-                   realgud
-                   realgud-lldb
-                   zig-mode
-                   yaml-mode
-                   terraform-mode
-                   direnv
+                   ;; langs
                    docker-compose-mode
                    dockerfile-mode
-                   typescript-mode
-                   json-mode
+                   edit-indirect        ;required by markdown-mode to edit codeblocks
+                   go-mode
                    graphviz-dot-mode
+                   json-mode
+                   markdown-mode
+                   nix-mode
+                   rust-mode
+                   solidity-mode
+                   terraform-mode
+                   typescript-mode
+                   yaml-mode
+                   zig-mode
+
+                   ;; additional
+                   direnv               ;integration with direnv (.envrc)
+                   forge                ;magit interface for "forges", e.g. github
+                   github-review        ;review PRs in emacs
                    nov                  ;epub reader
+                   realgud              ;frontend for external debuggers
+                   realgud-lldb
                    ))
        (notinstalled (seq-filter #'(lambda (pkg) (not (package-installed-p pkg)))
                                  packages)))
@@ -325,6 +334,8 @@
 ;;;; ===========================================================================
 ;;;;                                   undo-tree
 
+;; TODO: ignore .envrc and other files we don't want to persist undo-tree history to avoid leaking
+;; secrets
 (let ((dir (concat user-emacs-directory "undo-tree-hist")))
   (d/ensure-dir-exists dir)
 
