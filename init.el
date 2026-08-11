@@ -638,6 +638,14 @@
 
 (setq nov-text-width 60)
 
+;; default text size of rendered nov buffer is too small on external display. Increase to 1.75x
+(add-hook 'nov-mode-hook
+          (lambda () (face-remap-add-relative 'shr-text :height 1.75)))
+
+;; TODO: Probably need to add to `nov-post-html-render-hook' or `nov-pre-html-render-hook' code to
+;; increase the size of inline images. They're quite small, maybe we can increase their vertical
+;; height? Should we set a constant vertical height? Not sure...
+
 
 ;;;; ===========================================================================
 ;;;;                               frames/windows
