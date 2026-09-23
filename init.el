@@ -126,6 +126,7 @@
 (require 'dired-x)                      ;additional dired functionality
 (require 'ezkeys)
 (require 'flyspell)
+(require 'frame)
 (require 'ivy)
 (require 'magit)
 (require 'misc)
@@ -663,6 +664,8 @@
 ;;
 (when (not d/external-monitor)
   (defun frame-set-new-coordinates ()
+    "TODO"
+    (interactive)
     (let* ((lmin 0)
            (lmax 850)
            (lold (frame-parameter (selected-frame) 'left))
@@ -677,41 +680,77 @@
                        ((eq (type-of lold) 'cons) lmin)
                        ((eq lold lmax) lmin)
                        (t (+ lold 50)))))
-      ;; set the new left position
-      (setf (alist-get 'left default-frame-alist)
-            lnew))))
+      (make-frame `((left . ,lnew))))))
 
-;;
-;; lg DualUp monitor
-;;
-(when d/external-monitor
-  (defun frame-set-new-coordinates ()
-    (let* ((lmin 0)
-           (lmax 2026)
-           (lold (frame-parameter (selected-frame) 'left))
-           (told (frame-parameter (selected-frame) 'top))
-           (hold (frame-parameter (selected-frame) 'height))
-           ;; given a prefix arg, open frame right of current frame, otherwise offset it from the
-           ;; current frame either left or right. The type check is to guard against when frame is
-           ;; partly off-screen and left. In this case, open the new frame on left side of
-           ;; screen. Disable offset behavior if old frame is fullscreen
+;; C-x 5-2 -> offset frame with DEFAULT_WIDTH by DEFAULT_OFFSET, either left or right
+;; C-u C-x 5-2 -> create frame with inherited width either l or r of original
+;; C-u C-u C-x 5-2 -> create frame with DEFAULT_WIDTH either l or r of original
+(defun frame-set-new-coordinates2 ()
+  ;; TODO: skip logic if frame is fullscreen
+  ;;
+  ;; TODO: consider extending inhw? logic to height as well
+  ;;
+  ;;
+  ;; TODO: consider storing a stateful var that tracks:
+  ;;
+  ;;  - when a universal arg is given (eq obs? nil), store whether last expanded left or right. That
+  ;;    is if multiple frames are populated via C-u C-x 5-2 (or C-u C-u C-x 5-2) expand as far left
+  ;;    or right as you can in the same direction as you last expanded. The current behavior is to
+  ;;    expand the new frame once to by default right or left if that would overflow the
+  ;;    monitor. However, a second make-frame command will obscure the original frame, and so on...
+  ;;
+  ;;   C-u     -> Y -> new frame inherits width AND height of current
+  ;;   C-u C-u -> N -> new frame has default width and height
+  ;;
+  ;; Other potentially useful frame/display siz/pos funcs:
+  ;; `frame-char-width'
+  ;; `frame-geometry'
+  ;; `frame-pixel-width'
+  ;; `display-pixel-width'
+  ;; `x-display-list'
+  ;; `display-monitor-attributes-list'
+  ;; `frame-monitor-geometry'
+  "TODO"
+  (interactive)
+  (let* ((fram (selected-frame))
+         ;; geom of form (X Y WIDTH HEIGHT) - same as :workarea attr of
+         ;; `display-monitor-attributes-list'
+         (geom   (frame-monitor-geometry fram))
+         (rmax_p (caddr geom))        ; WIDTH (pixel width of monitor)
+         (lmin   (car geom))          ; X (typically 0)
+         (wdef_c 117)                 ; default width
+         (lold   (frame-parameter fram 'left))
+         ;; lold of form (+ . -PIXELS) if frame overflowing left side of monitor, otherwise a number
+         (lold_p (if (eq (type-of lold) 'cons) (cadr lold) lold))
+         (told_p (frame-parameter fram 'top))
+         (hold_c (frame-parameter fram 'height))
+         ;; (wold_p (frame-pixel-width fram))
+         ;; (wold_c (/ wold_p (frame-char-width fram)))
+         (wold_c (frame-parameter fram 'width))
+         (wold_p (* wold_c (frame-char-width fram)))
+         ;; obscure? N -> Leave old frame completely visible
+         (obs?  (not current-prefix-arg))
+         ;; inherit width?
+         ;; C-u     -> Y -> new frame inherits width of current
+         ;; C-u C-u -> N -> new frame has default width
+         ;; -- Never inherit when `obs?'
+         (inhw? (if obs? nil
+                  (eq (prefix-numeric-value current-prefix-arg) 4 )))
+         ;; New frame values for 'height, 'width, 'top
+         (hnew_c hold_c)
+         (wnew_c (if inhw? wold_c wdef_c))
+         (tnew_p told_p)
+         ;; New frame 'left value
+         (wnew_p (* wnew_c (frame-char-width fram)))
+         (lmax_p (- rmax_p wnew_p))
+         (lnew_p (cond ((not obs?) (if (> (+ lold_p wold_p) lmax_p)
+                                       (- lold_p wnew_p 35)
+                                     (+ lold_p wold_p 35)))
+                       ((> lold_p lmax_p) lmax_p)
+                       ((>= (+ lold_p 250) lmax_p) (- lold_p 50))
+                       (t (+ lold_p 50)))))
 
-           ;; (width (frame-parameter (selected-frame) 'width)) ;the 'width reported doesn't work additively with 'left
-           (width 855)
-           (lnew (cond (current-prefix-arg (if (> (+ lold width) lmax)
-                                               (- lold width)
-                                             (+ lold width)))
-                       ((eq (type-of lold) 'cons) lmin)
-                       ((> lold lmax) lmax)
-                       ((>= (+ lold 250) lmax) (- lold 50))
-                       (t (+ lold 50)))))
-      ;; set the new left position
-      (setf (alist-get 'left default-frame-alist)
-            lnew)
-      (setf (alist-get 'top default-frame-alist)
-            told)
-      (setf (alist-get 'height default-frame-alist)
-            hold))))
+    (make-frame `((top . ,tnew_p) (left . ,lnew_p) (width . ,wnew_c) (height . ,hnew_c)))))
 
 (when (display-graphic-p)
   (select-frame-set-input-focus (selected-frame))
@@ -732,9 +771,9 @@
   (select-frame (make-frame initial-frame-alist))
   (delete-frame (cadr (frame-list)))
 
-  ;; advise `make-frame-command' to behave the way we want
-  (advice-add 'make-frame-command
-              :before 'frame-set-new-coordinates))
+  (if d/external-monitor
+      (fset 'make-frame-command 'frame-set-new-coordinates2)
+    (fset 'make-frame-command 'frame-set-new-coordinates)))
 
 
 ;;;; ===========================================================================
