@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t; -*-
 (require 'ring)
 
 (defvar d/theme-ring (make-ring 1)

@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t; -*-
 (require 'd:better-theme-switching)
 (require 'sketch-themes)
 (require 'almost-mono-themes)

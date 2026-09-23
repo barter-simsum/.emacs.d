@@ -1,4 +1,5 @@
 (setq source-directory "/home/d/.emacs.d/emacs-29.0.92/")
+;; -*- lexical-binding: t; -*-
 
 ;; TODO:
 ;;

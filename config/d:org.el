@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t; -*-
 (require 'org)
 
 ;; used by org to produce html files

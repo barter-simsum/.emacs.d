@@ -1,4 +1,4 @@
-
+;; -*- lexical-binding: t; -*-
 (defun d/ensure-dir-exists (path)
   (when (not (file-exists-p path))
     (mkdir path)))

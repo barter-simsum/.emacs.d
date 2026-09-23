@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t; -*-
 ;; simple function to toggle display of dotfiles in dired
 (defun d-dired-dotfiles-toggle ()
   "Show/hide dot-files"
