@@ -1,4 +1,3 @@
-(setq source-directory "/home/d/.emacs.d/emacs-29.0.92/")
 ;; -*- lexical-binding: t; -*-
 
 ;; TODO:
@@ -23,6 +22,7 @@
 ;;;;                               environment config
 
 (setq d/external-monitor t)
+(setq source-directory (concat user-emacs-directory "emacs-src"))
 
 
 ;;;; ===========================================================================
